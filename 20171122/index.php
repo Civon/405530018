@@ -27,13 +27,19 @@ if(isset($_POST['height'])||isset($_POST['weight']))
 		echo "BMI    = ". $_POST['weight'] / $_POST['height'] / $_POST['height']. "<br>";
 	}
 
-if(isset($_FILES['pic']))
-	if($_FILES['pic']['error'])
-		echo "error: ".$_FILES['pic']['error'];
+if(isset($_FILES['pic'])){
+	if(empty($_FILES['pic']['tmp_name']))
+		echo "empty <br>";
 	else{
-		$filename = $_FILES['pic']['name'];
-		move_uploaded_file($_FILES['pic']['tmp_name'], "upload/$filename");
-		echo '<img src="upload/'.$filename.'" alt="picture">';
+		$type = strtok($_FILES['pic']['type'],"/");
+		if($type != "image")
+			echo "wrong file type. <br>";
+		else{
+			$filename = $_FILES['pic']['name'];
+			move_uploaded_file($_FILES['pic']['tmp_name'], "upload/$filename");
+			echo '<img src="upload/'.$filename.'" alt="picture">';
+		}
 	}
-
+}
+	
 ?>
